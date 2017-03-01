@@ -1,0 +1,102 @@
+<div>
+    <ul class="pagination">
+        <li>
+            <span>每页</span>
+        </li>
+        <li>	
+    
+    		<select id="pagePerNumber" value="$!{pageData.pageSize}"
+                onchange="pageTurn(this.value,1)">
+                #if(${pageData.pageSize}==15)
+                    <option value="15" selected="selected">15</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    #elseif($!{pageData.pageSize}==20)
+                        <option value="15">15</option>
+                        <option value="20" selected="selected">20</option>
+                        <option value="50">50</option>
+                        #else if($!{pageData.pageSize}==50)
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="50" selected="selected">50</option>
+                #end
+        </select>
+        </li>
+        <li>
+            <span>项</span>
+        </li>
+        <li>
+            <span name="totalpage">共&nbsp;$!{pageData.pages} &nbsp;页</span>
+        </li>
+        <li>
+            <span name="total">共&nbsp;$!{pageData.total} &nbsp;页</span>
+        </li>
+        #set($pageNums = $!{pageData.navigatepageNums})
+        #if($!{pageData.pageNum} == 1)
+            <li class="disabled">
+                <a href="javascript:void(0);" onclick="return false;">&lt;&lt;</a>
+            </li>
+            <li class="disabled">
+                <a href="javascript:void(0);" onclick="return false;">&lt;</a>
+            </li>
+            #else
+                <li>
+                    <a href="javascript:void(0);" onclick="pageTurn(1,$pageData.pageSize)">&lt;&lt;</a>
+                </li>
+                <li><a href="javascript:void(0);"
+                        onclick="pageTurn(${pageData.prePage},${pageData.pageSize})">&lt;</a>
+                </li>
+        #end
+        #if($!{pageNums[0]} > 1)
+            <li>
+                <a href="javascript:void(0);">..</a>
+            </li>
+        #end 
+        #foreach($num in $pageNums)
+            #if($!pageData.pageNum==$num)
+                <li id="active" class="active">
+                    <a href="javascript:void(0);" onclick="return false;">$num</a>
+                </li>
+                #else
+                    <li><a href="javascript:void(0);"
+                            onclick="pageTurn($num,$!{pageData.pageSize})">$num</a>
+                    </li>
+            #end 
+    	#end
+    	#if($!{pageNums.size()}==4) 
+            #if($!{pageNums[3]} < $!{pageData.pages})
+                    <li>
+                        <a href="javascript:void(0);">..</a>
+                    </li>
+        	#end
+    	#end
+        #if($!{pageData.pageNum} ==
+            $!{pageData.pages}||$!{pageData.pages}==0)
+            <li class="disabled">
+                <a href="javascript:void(0);" onclick="return false;">&gt;</a>
+            </li>
+            <li class="disabled">
+                <a href="javascript:void(0);" onclick="return false;">&gt;&gt;</a>
+            </li>
+            #else
+                <li><a href="javascript:void(0);"
+                        onclick="pageTurn($!{pageData.nextPage},${pageData.pageSize})">&gt;</a>
+                </li>
+                <li><a href="javascript:void(0);"
+                        onclick="pageTurn($!{pageData.lastPage},${pageData.pageSize})">&gt;&gt;</a>
+                </li>
+        #end
+        <li>
+            <span>跳转到：</span>
+        </li>
+        <li>
+            <span class="custom"> <input id="pagetext" type="text"
+                    size="3"
+                    style="height: 18px; width: 40px; line-height: 15px; margin: -2px 0 0 0; padding: 1px; font-size: 12px; text-align: center;">
+    </span>
+    </li>
+    <li><a id="goToPage" href="javascript:void(0);"
+            onclick="pageTurn(parseInt($('#pagetext').val()),$!{pageData.pageSize})">GO</a>
+    </li>
+    </ul>
+</div>

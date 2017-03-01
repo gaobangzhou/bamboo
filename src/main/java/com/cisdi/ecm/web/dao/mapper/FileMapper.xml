@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.FileMapper">
+
+	<resultMap id="FileInfoResultMap" type="FileInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_size" property="fileSize" jdbcType="BIGINT" />
+		<result column="file_suffix" property="fileSuffix" jdbcType="VARCHAR" />
+		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
+		<result column="file_perffix" property="filePerffix" jdbcType="VARCHAR" />
+		<result column="original_name" property="orgininalName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insertFile" useGeneratedKeys="true" keyProperty="id"
+		parameterType="FileInfo">
+		INSERT INTO cux_file_info
+		(file_name,original_name,file_size,file_preffix,file_suffix,file_path)
+		VALUES(#{fileName},#{originalName},#{fileSize},#{filePrefix},#{fileSuffix},#{filePath})
+	</insert>
+
+	<select id="selectFolderFiles" resultType="map">
+		select * from (
+		SELECT
+		ff.folder_guid AS id,
+		ff.folder_name AS "name",
+		'folder' AS type,
+		ff.create_date AS time,
+		'-' AS size,
+		'-' AS share,
+		'fa-folder-o' as icon
+		FROM
+		cux_folderfolders ff
+		WHERE
+		ff.folder_creator = #{userId}
+		AND
+		ff.parent_guid = #{folderGuid}
+		<if test="status !='none'">
+			AND ff.in_trashcan= #{status}
+		</if>
+		UNION ALL
+		SELECT
+		di.id AS id,
+		fi.original_name AS "name",
+		'file' AS type,
+		di.doc_creation_date AS time,
+		fi.file_Size AS size,
+		di.doc_shared AS share,
+		IFNULL(fi.icon,'fa-file-o bigger-160')
+		FROM
+		cux_docinfo di,
+		(select f.*,icon.icon from  cux_file_info f left join cux_file_icon icon on icon.suffix =f.file_suffix ) fi,
+		cux_folderdoc_rt fr
+		  WHERE
+		di.file_id = fi.id
+		and fr.doc_id =di.id
+		AND di.doc_author = #{userId}
+		and
+		fr.folder_guid=#{folderGuid}
+		<if test="status !='none'">
+			AND di.doc_intrashcan= #{status}
+		</if>
+		
+		) T
+		<if test="orderby !='none'">
+			order by #{orderby}
+		</if>
+		<if test="order !='none'">
+			#{order}
+		</if>
+
+	</select>
+
+	<update id="updateInTrashcan">
+		update cux_docinfo d set d.doc_intrashcan =#{inTrashcan,jdbcType=VARCHAR}
+		where d.id=#{fileId}
+	</update>
+
+	<select id="getFileInfoByDocId" parameterType="Long" resultType="FileInfo">
+		select * from cux_file_info t where t.id=(select d.file_id from
+		cux_docinfo d where d.id=#{docId} )
+	</select> 
+	
+		<select id="searchFolderFiles" resultType="map">
+		select * from (
+		SELECT
+		di.id AS id,
+		fi.original_name AS "name",
+		'file' AS type,
+		di.doc_creation_date AS time,
+		fi.file_Size AS size,
+		di.doc_shared AS share,
+		IFNULL(fi.icon,'fa-file-o bigger-160') as icon
+		FROM
+		cux_docinfo di,
+		(select f.*,icon.icon from  cux_file_info f left join cux_file_icon icon on icon.suffix =f.file_suffix ) fi,
+		cux_folderdoc_rt fr
+		  WHERE
+		di.file_id = fi.id
+		and fr.doc_id =di.id
+		AND di.doc_author = #{userName}
+		AND fi.original_name like #{keyword}
+		<if test="status !='none'">
+			AND di.doc_intrashcan= #{status}
+		</if>
+		
+		) T
+		<if test="orderby !='none'">
+			order by #{orderby}
+		</if>
+		<if test="order !='none'">
+			#{order}
+		</if>
+
+	</select>
+</mapper>

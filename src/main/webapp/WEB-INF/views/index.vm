@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>中冶赛迪企业内容信息管理系统</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="${request.getContextPath()}/resources/dist/build.js"></script>
+  </body>
+</html>

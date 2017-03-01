@@ -1,0 +1,68 @@
+<!--[if !IE]> -->
+<script type="text/javascript">
+    window.jQuery
+    || document
+    .write("<script src='${request.getContextPath()}/resources/assets/js/jquery.min.js'>"
+    + "<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+window.jQuery || document.write("<script src='${request.getContextPath()}/resources/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement)
+    document
+    .write("<script src='${request.getContextPath()}/resources/assets/js/jquery.mobile.custom.min.js'>"
+    + "<"+"/script>");
+</script>
+<script src="${request.getContextPath()}/resources/assets/js/bootstrap.min.js"></script>
+<!-- page specific plugin scripts -->
+<!-- ace scripts -->
+<script type="text/javascript">
+    ace.vars['base'] = '${request.getContextPath()}/resources/';
+    ace.vars['url'] = '${request.getContextPath()}/';
+    var count = 0;
+   
+    document.onkeydown = check;
+    function check(e) {
+    	var code;
+    	if (!e)
+    		var e = window.event;
+    	if (e.keyCode)
+    		code = e.keyCode;
+    	else if (e.which)
+    		code = e.which;
+    	if (((event.keyCode == 8) && // BackSpace
+    	((event.srcElement.type != "text" && event.srcElement.type != "textarea" && event.srcElement.type != "password") || event.srcElement.readOnly == true))
+    			|| ((event.ctrlKey) && ((event.keyCode == 78) || (event.keyCode == 82)))
+    			|| // CtrlN,CtrlR
+    			(event.keyCode == 116)) { // F5
+    		event.keyCode = 0;
+    		event.returnValue = false;
+    	}
+    	return true;
+    }
+    jQuery.ajaxSetup({
+    	contentType : "application/x-www-form-urlencoded;charset=utf-8",
+    	complete : function(XMLHttpRequest, textStatus) {
+    		var sessionstatus = XMLHttpRequest.getResponseHeader("sessionstatus"); // 通过XMLHttpRequest取得响应头，sessionstatus，
+    		if (sessionstatus == "timeout" && count == 0) {
+    			count++;
+    			alert("登录超时,请重新登录！");
+    			// 如果超时就处理 ，指定要跳转的页面
+    			window.location.href = "/BHEC-ECM/login.html";
+    		}
+    	}
+    });
+</script>
+<script src="${request.getContextPath()}/resources/assets/js/ace-elements.min.js"></script>
+<script src="${request.getContextPath()}/resources/assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<script src="${request.getContextPath()}/resources/assets/js/typeahead-bs2.min.js"  type="text/javascript"></script>
+
+<script src="${request.getContextPath()}/resources/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="${request.getContextPath()}/resources/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>

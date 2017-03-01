@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="User">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="username" property="userName" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="DATE" />
+		<result column="fullname" property="fullName" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="VARCHAR" />
+		<result column="filetoltalcount" property="totalCount" jdbcType="BIGINT" />
+		<result column="filetotalSize" property="totalSize" jdbcType="BIGINT" />
+		<result column="total_download_number" property="downloadNum" jdbcType="BIGINT" />
+		<result column="total_favourite_number" property="favourNum" jdbcType="BIGINT" />
+	</resultMap>
+
+	<insert id="insertUser" parameterType="User" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO cux_user
+		(username,password,fullname,email,address,city,country,create_time)
+		VALUES
+		(#{userName},#{password},#{fullName},#{email},#{address},#{city},#{country},#{createTime})
+	</insert>
+
+	<!-- 增加用户权限 -->
+	<insert id="insertUserRole">
+		insert into cux_user_role (user_id,
+		role_id)
+		values (
+		#{user_id,jdbcType=BIGINT},
+		#{role_id,jdbcType=BIGINT})
+	</insert>
+
+	<!-- 通过用户查找用户信息 -->
+	<select id="seletUserByName" resultMap="BaseResultMap" parameterType="String">
+		select * from cux_user
+		where username = #{userName,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询所有用户信息 -->
+	<select id="selectAllUser" resultType="User">
+		select u.*
+		from cux_user u
+	</select>
+
+	<!-- 根据全名查找用户 -->
+	<select id="selectUserByfullname" parameterType="String"
+		resultType="User">
+		select * from cux_user where fullname=#{fullname}
+	</select>
+
+	<!-- 查找对应角色的所有用户 -->
+	<select id="selectUsersByRole" parameterType="String"
+		resultType="User">
+		select u.* from cux_user u left join cux_user_role ur on
+		u.id=ur.user_id left join
+		cux_role r on ur.role_id=r.id where
+		description=#{description}
+	</select>
+
+	<!-- 用户登录验证查询 -->
+	<select id="authentication" resultType="User" parameterType="User">
+		select *
+		from cux_user
+		where username = #{userName,jdbcType=VARCHAR} and
+		password =
+		#{password,jdbcType=CHAR}
+	</select>
+
+
+
+	<!-- 更新用户信息 -->
+	<update id="updateUser" parameterType="User">
+		update cux_user
+		<set>
+			<if test="userName!=null and userName!=''">
+				username=#{userName},
+			</if>
+			<if test="password!=null and password!=''">
+				password=#{password},
+			</if>
+			<if test="fullName!=null and fullName!=''">
+				fullname=#{fullName},
+			</if>
+			<if test="email!=null and email!=''">
+				email=#{email},
+			</if>
+			<if test="address!=null and address!=''">
+				address=#{address},
+			</if>
+			<if test="city!=null and city!=''">
+				city=#{city},
+			</if>
+			<if test="country!=null and country!=''">
+				country=#{country},
+			</if>
+		</set>
+		where id=#{id};
+	</update>
+
+	<!-- 根据id删除用户信息 -->
+	<delete id="deleteUserByid" parameterType="int">
+		delete from cux_user
+		where id= #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 删除用户的角色属性 -->
+	<delete id="deleteUserRole">
+		delete from cux_user_role where
+		user_id=
+		#{user_id,jdbcType=BIGINT}
+		and
+		role_id=#{role_id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 更新用户的角色属性 -->
+	<update id="updateUserRole">
+		<set>
+			<if test="role_id!=null and role_id!=''">
+				role_id=#{role_id}
+			</if>
+		</set>
+		where user_id=#{user_id};
+	</update>
+
+	<!-- 增加用户文件数据 -->
+	<update id="addUserTotalFiles">
+		UPDATE cux_user t
+		SET t.fileToltalCount =
+		t.fileToltalCount + #{fileCount},
+		t.fileTotalSize = t.fileTotalSize
+		+#{fileSize}
+		WHERE
+		t.username = #{userName}
+	</update>
+
+
+	<!-- 减少用户文件数据 -->
+	<update id="deleteUserTotalFiles">
+		UPDATE cux_user t
+		SET t.fileToltalCount =
+		t.fileToltalCount - #{fileCount},
+		t.fileTotalSize = t.fileTotalSize -
+		#{fileSize}
+		WHERE
+		t.username = #{userName}
+	</update>
+
+	<update id="addUserDownloadNum">
+		UPDATE cux_user t
+		SET t.total_download_number =
+		t.total_download_number + #{fileCount}
+		WHERE
+		t.username = #{userName}
+	</update>
+	<update id="addUserFavouritNum">
+		UPDATE cux_user t
+		SET t.total_favourite_number =
+		t.total_favourite_number + #{fileCount}
+		WHERE
+		t.username = #{userName}
+	</update>
+
+	<select id="selectUserFollower" resultType="Map">
+		select * FROM
+		cux_user_follow t where t.user_name=#{userName} and
+		t.follow_user_name=#{followName}
+	</select>
+
+	<insert id="insertUserFollow">
+		insert into cux_user_follow t
+		(user_name,follow_user_name,create_date,created_by)
+		values(#{userName},#{followName},SYSDATE(),#{userName})
+	</insert>
+
+</mapper>

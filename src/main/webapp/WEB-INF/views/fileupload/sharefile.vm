@@ -1,0 +1,187 @@
+ #set($jquery="$")
+ #set($docInfo=${sharePageBean.getDocInfo()})
+ #set($docAuthor=${sharePageBean.getDocAuthor()})
+ #set($FilesList =$!{sharePageBean.getTop5FilesList()})
+	<div id="bd" class="global-clearfix">
+		<div id="bd-main">
+			<div class="bd-left">
+	<div class="module-share-header">
+		<div class="row-fluid">
+			<div class="share-page-header">
+				<h4 class="file-name" title="$!{docInfo.getFileName()}">
+					<i class=" ace-icon fa fa-file-o bigger-130 "></i>
+					$!{docInfo.getFileName()}
+				</h4>
+				<span class="header-bars"> <a
+					class="btn btn-info btn-xs new-btn"> <b> <i
+							class="ace-icon fa fa-share-square-o bigger-120"></i> 保存至网盘
+					</b>
+				</a> <a class="btn btn-xs btn-success new-btn" href=""> <b> <i
+							class="ace-icon fa fa-cloud-download bigger-120"></i> 下载($!{sharePageBean.getFileSize()})
+					</b>
+				</a> <a class="btn  btn-xs"> <b> <i
+							class="ace-icon fa fa-flag bigger-120"></i> 举报
+					</b>
+				</a>
+				</span>
+			</div>
+			<div class="picture-file-detail">
+                <div class="share-file-viewer">
+                	<div class="other-file-detail">
+                		<div class="other-file-icon">
+                			<div class="global-icon-62 global-icon-62-file"></div>
+                		</div>
+                		<span class="other-file-meta">文件大小：</span><span class="size">$!{sharePageBean.getFileSize()}</span>
+                	</div>
+                </div>
+			</div>
+
+		</div>
+	</div>
+	<div class="module-share-header">
+		<div class="slide-show-other-infos">
+			<div class="slide-show-other-cns clearfix">
+				<span class="title-funcs"> <a class="funcs-tui"
+					hidefocus="true" 
+					#if($sharePageBean.getCanFavour())
+					href="javascript:void(0);" 
+					#else
+					href="addFavour(${docInfo.getDocId()});" 	
+					#end
+					id="albumTui" title="赞">
+						<i class="ace-icon fa  fa-thumbs-up bigger-120"></i> <b>
+							赞(${docInfo.getForwordNum()})</b> <span class="tui-number"></span>
+				</a> <span class="share-operate-seprate">|</span><i
+						class="ace-icon fa  fa-download bigger-120"></i>下载(${docInfo.getDounloadNum()}) <span
+					class="share-operate-seprate">|</span> <span> <i
+						class="ace-icon fa  fa-eye bigger-120"></i>浏览(${docInfo.getViewNum()})
+				</span>
+				</span>
+			</div>
+			<div class="share-file-info">
+				<span>分享时间：$!{docInfo.getSharedDate()}</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="comment_panel global-clearfix">
+		<div class="module-comment module-comment-page">
+			<div class="comment-header">
+				<h3 class="title">评论详情</h3>
+				<div class="description">
+					<textarea class="area" id="commentTextarea"></textarea>
+				</div>
+			</div>
+			<div class="operation btn btn-danger btn-sm ">
+				<span class="btn-comment">评论</span> 
+			</div>
+		</div>
+	<div class="page clearfix"></div>
+</div>
+</div>
+
+
+		<div class="bd-aside">
+			<div node-type="module" class="module-share-person-info">
+				<div class="share-person-inner global-clearfix">
+					<div class="share-person-avatar">
+						<a href="" target="_blank"
+							title="去Ta的分享主页" class="person-icon"> <img
+							alt="${docAuthor.getFullName()}"
+							src="${request.getContextPath()}/resources/assets/avatars/user.jpg"></a>
+						<div class="avatar-shadow"></div>
+					</div>
+					<div class="share-person-data">
+						<a href="" target="_blank"
+							title="去Ta的分享主页" class="share-person-username global-ellipsis">${docAuthor.getFullName()}</a>
+						<a href="javascript: void(0)" node-type="share-follow-btn"
+							hidefocus="true" class="share-follow-btn follow"> <span
+							node-type="follow-txt" class="btn btn-sm btn-info"> <i
+								class="ace-icon fa fa-plus bigger-120"></i> 立即关注
+						</span> <span class="btn btn-sm hidden">取消关注</span>
+						</a> <a href=""
+							class="unvip-icon"></a>
+					</div>
+				</div>
+				<ul class="personal-information fl" id="feedPersonal">
+					<li class="share-cnt sharecnt"><a hidefocus="hideFocus"
+						href="" target="_blank">
+							<p>${docAuthor.getTotalCount()}</p> 分享
+					</a></li>
+					<li class="share-cnt sharecnt"><a hidefocus="hideFocus"
+						href="" target="_blank">
+							<p>${docAuthor.getFavourNum()}</p> 点赞
+					</a></li>
+					<li class="share-cnt followcnt"><a hidefocus="hideFocus"
+						href="" target="_blank">
+							<p>${docAuthor.getDownloadNum()}</p> 下载
+					</a></li>
+					<li class="share-cnt fanscnt"><a hidefocus="hideFocus"
+						href="" target="_blank">
+							<p>${docAuthor.getTotalCount()}</p> 总数
+					</a></li>
+				</ul>
+				<div class="share-person-inner global-clearfix">
+                <p style="margin-top:10px;">邮箱：${docAuthor.getEmail()}</p>
+				<p>注册时间：${docAuthor.getCreateTime()}</p>
+                </div>
+				
+<dl node-type="module" class="module-hot-rec"
+	style="height: 150px; display: block;">
+	<dt>
+		<span class="title">TA的分享推荐</span>
+	</dt>
+	#if($FilesList)
+	
+	 #foreach($file in $FilesList)
+				<dd>
+	
+	<a target="_blank" class="hot_item "
+		href=""
+		title="年终报告如何写 千份模板任你选"><i class="ace-icon fa fa-file-o bigger-120" style="padding:3px;"></i>年终报告如何写 千份模板任你选</a>
+     </dd>
+		#end
+	#else
+	<dd>
+		没有可以推荐的分享
+	
+	</dd>
+	#end	
+    </dl>
+			</div>
+		</div>
+	</div>
+		
+        </div>
+		
+<script type="text/javascript">
+           $jquery(function() {
+	var $overflow = '';
+	var colorbox_params = {
+		rel : 'colorbox',
+		reposition : true,
+		scalePhotos : true,
+		scrolling : false,
+		previous : '<i class="ace-icon fa fa-arrow-left"></i>',
+		next : '<i class="ace-icon fa fa-arrow-right"></i>',
+		close : '&times;',
+		current : '1 of 1',
+		maxWidth : '100%',
+		maxHeight : '100%',
+		onOpen : function() {
+			$overflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
+		},
+		onClosed : function() {
+			document.body.style.overflow = $overflow;
+		},
+		onComplete : function() {
+			$.colorbox.resize();
+		}
+	};
+	$jquery('.picture-file-detail [data-rel="colorbox"]').colorbox(
+			colorbox_params);
+	$jquery("#cboxLoadingGraphic").html(
+			"<i class='ace-icon fa fa-spinner orange'></i>");
+})
+</script>

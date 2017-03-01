@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.DocInfoMapper">
+
+	<resultMap type="DocInfo" id="DocInfoResultMap">
+		<id column="id" property="docId" jdbcType="BIGINT" />
+		<result column="file_id" property="fileId" jdbcType="BIGINT" />
+		<result column="doc_title" property="docTitle" jdbcType="VARCHAR" />
+		<result column="original_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_Size" property="fileSize" jdbcType="BIGINT" />
+		<result column="file_suffix" property="fileSuffix" jdbcType="VARCHAR" />
+		<result column="doc_type" property="docType" jdbcType="VARCHAR" />
+		<result column="doc_author" property="docAuthor" jdbcType="VARCHAR" />
+		<result column="doc_creation_date" property="creationDate" jdbcType="DATE" />
+		<result column="doc_download_num" property="dounloadNum" jdbcType="BIGINT" />
+		<result column="doc_view_num" property="viewNum" jdbcType="BIGINT" />
+		<result column="doc_forword_num" property="forwordNum" jdbcType="BIGINT" />
+		<result column="doc_shared" property="isShared" jdbcType="VARCHAR" />
+		<result column="doc_shared_time" property="sharedDate" jdbcType="DATE" />
+		
+	</resultMap>
+	
+	<resultMap type="FileChecked" id="FileCheckedMap">
+	   <result column="doc_id" property="id" />
+		<result column="type" property="type" />
+	
+	</resultMap>
+
+
+	<insert id="insertDocInfo"></insert>
+	<insert id="insertDefDocInfo" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO cux_docinfo ( FILE_ID,
+		DOC_TYPE,DOC_AUTHOR,DOC_CREATION_DATE,DOC_DOWNLOAD_NUM,DOC_VIEW_NUM,DOC_FORWORD_NUM,DOC_SHARED)
+		VALUES
+		(#{fileId},'KL',#{userName},SYSDATE(),0,0,0,'Y')
+	</insert>
+
+	<insert id="insertFolderDocRt">
+		INSERT INTO cux_folderdoc_rt (folder_guid,doc_id)
+		VALUES(#{folderGuid},#{id})
+	</insert>
+
+	<select id="getDocInfoByFileId" parameterType="long" resultType="Map">
+		select * from
+		cux_docinfo where file_id =#{docId}
+	</select>
+
+	<select id="getDocInfoByDocId" parameterType="long" resultMap="DocInfoResultMap">
+	
+	SELECT
+	d.id,
+	d.file_id,
+	d.doc_title,
+	f.original_name,
+	f.file_Size,
+	f.file_suffix,
+	d.doc_type,
+	d.doc_author,
+	d.doc_creation_date,
+d.doc_download_num,
+d.doc_view_num,
+d.doc_forword_num,
+d.doc_shared,
+d.doc_shared_time
+FROM
+	cux_docinfo d,
+	cux_file_info f
+WHERE
+	d.file_id = f.id and d.id=#{docId}
+	</select>
+
+	<update id="addDocDownloadNum">
+		update cux_docinfo d set d.doc_download_num
+		=d.doc_download_num+#{count}
+		where d.id=#{id}
+	</update>
+
+	<update id="addDocViewNum">
+		update cux_docinfo d set d.doc_view_num
+		=d.doc_view_num+#{count} where
+		d.id=#{id}
+	</update>
+
+	<update id="addDocFavouriteNum">
+		update cux_docinfo d set d.doc_forword_num
+		=d.doc_forword_num+#{count} where
+		d.id=#{id}
+	</update>
+
+	<insert id="insertUserEvent">
+		insert into
+		cux_doc_event(doc_id,created_by,create_date,event_code)
+		VALUES(#{docId},#{userName},SYSDATE(),#{event})
+	</insert>
+
+	<select id="selectEventDoc" resultType="Map">
+		select * from (select *
+		from cux_doc_event t where t.event_code =#{event}
+		and t.doc_id=#{docId}
+		and t.created_by=#{userName}) m LEFT JOIN
+		cux_docinfo d on
+		m.doc_id=d.id
+	</select>
+	<update id="deleteFiles2Trashcan">
+		update cux_docinfo d set d.doc_inTrashcan ='Y' WHERE d.id IN 
+	<foreach collection="list" item="FileChecked" open="(" close=")" separator="," index="">
+		  #{FileChecked.id}
+	</foreach>
+	</update>
+	<select id="getAllSubFileCheckeds" resultMap="FileCheckedMap">
+	select fr.doc_id,'file' as type from cux_folderdoc_rt fr,cux_docinfo d where d.id =fr.doc_id and d.doc_inTrashcan ='N' AND fr.folder_guid  in
+	<foreach collection="list" item="map" open="(" close=")" separator="," index="">
+		  #{map.folder_guid}
+	</foreach>
+	</select>
+</mapper>

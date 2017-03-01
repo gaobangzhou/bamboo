@@ -1,0 +1,79 @@
+<br>
+<div class="col-xs-12">
+    <form id="moduleForm" class="form-horizontal" action="module/insert" method="POST" onsubmit="return insertModule();">
+    	<div class="form-group">
+    		<label class="col-sm-3 control-label no-padding-right"
+    			for="moduleName">*菜单名称：</label>
+    		<div class=" col-sm-6 no-padding">
+    			<input name="moduleTitle" id="moduleTitle" type="text"  value="$!{menu.moduleTitle}"
+    				class="col-xs-10 col-sm-12" />
+    		</div>
+    	</div>
+    
+    	<div class="form-group">
+    		<label class="col-sm-3 control-label no-padding-right"
+    			for="moduleName">*菜单名称：</label>
+    		<div class=" col-sm-6 no-padding">
+    		  <select name="moduleType" id="moduleType"  value="$!{menu.moduleName}" class="col-xs-12 col-sm-12">
+    				<option value=""></option> 
+    				<option value="module">一级导航</option> 
+    				<option value="function">二级导航</option> 
+    			</select>
+    		</div>
+    	</div>
+    	
+    	<div class="form-group">
+    		<label class="col-sm-3 control-label no-padding-right" for="indexNum">*序号：</label>
+    
+    		<div class="  col-sm-6 no-padding">
+    			<input type="text" name="moduleIndex" id="moduleIndex"  value="$!{menu.moduleIndex}"
+    				class="col-xs-10 col-sm-12" />
+    		</div>
+    	</div>
+    
+    	<div class="form-group">
+    		<label class="col-sm-3 control-label no-padding-right" for="moduleTarget">*链接：</label>
+    
+    		<div class="  col-sm-6 no-padding">
+    			<input type="text" name="moduleTarget" id="moduleTarget"  value="$!{menu.moduleTarget}"
+    				class="col-xs-10 col-sm-12" />
+    		</div>
+    	</div>
+    
+    	<div class="form-group">
+    		<label class="col-sm-3 control-label no-padding-right" for="moduleName">*英文名称：</label>
+    
+    		<div class="  col-sm-6 no-padding">
+    			<input type="text" name="moduleName" id="moduleName"  value="$!{menu.moduleName}" class="col-xs-10 col-sm-12 "/>
+    		</div>
+    	</div>
+    
+    
+    	<div class="form-group">
+    		<label class="col-sm-3 control-label no-padding-right" for="parentId">父菜单：</label>
+    
+    		<div class="  col-sm-6 no-padding">
+    			<input type="text" name="parentId" id="parentId" class="col-xs-10 col-sm-12"   value="$!{menu.parentId}"/>
+    		</div>
+    	</div>
+    
+    	<div class="form-group">
+    		<label class="col-sm-3 control-label no-padding-right" for="moduleIcon" >图标：</label>
+    
+    		<div class="  col-sm-6 no-padding">
+    			<input type="text" name="moduleIcon" id="moduleIcon" class="col-xs-10 col-sm-12"   value="$!{menu.moduleIcon}"/>
+    		</div>
+    	</div>
+    
+    
+    	<div class="form-group">
+    		<div class="col-md-offset-4 col-md-3">
+    			<button  
+    				class="btn btn-success btn-next btn-sm" data-last="Finish">
+    				<i class="ace-icon fa fa-check bigger-110"></i> 提交
+    			</button>
+    
+    		</div>
+    	</div>
+    </form>
+</div>

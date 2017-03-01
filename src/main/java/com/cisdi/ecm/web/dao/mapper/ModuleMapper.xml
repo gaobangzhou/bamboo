@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.ModuleMapper">
+
+	<resultMap type="Module" id="moduleResultMap">
+		<id property="id" column="id" />
+		<result property="moduleName" column="module_name" />
+		<result property="moduleTitle" column="module_title" />
+		<result property="moduleType" column="module_type" />
+		<result property="parentId" column="parent_Id" />
+		<result property="moduleIcon" column="module_icon" />
+		<result property="moduleIndex" column="module_index" />
+		<result property="moduleTarget" column="module_target" />
+		<result property="roleId" column="role_id" />
+
+		<!-- 查询子模块 -->
+		<collection property="childrenModules" javaType="ArrayList" column="{roleId =role_id,id=id}"
+			 select="getChildrenModues" />
+
+	</resultMap>
+
+	<select id="getModulesByRoles" parameterType="java.util.List" resultMap="moduleResultMap">
+		select m.*,t.role_id from (SELECT p.*,rp.role_id FROM cux_permission p LEFT JOIN cux_role_permission rp ON rp.permission_id = p.id WHERE rp.role_id 
+		in
+		<foreach collection="list" item="role" open="(" close=")" separator="," index="">
+		  #{role.id}
+		</foreach>
+		 and p.permission_sign ='navigation') t,cux_module m where t.description =m.id and m.module_type='module' order by m.module_index asc
+	</select>
+
+	<select id="getChildrenModues"  parameterType="HashMap" resultMap="moduleResultMap">
+		select m.*,t.role_id from (SELECT p.*,rp.role_id FROM cux_permission p LEFT JOIN cux_role_permission rp ON rp.permission_id = p.id 
+		WHERE rp.role_id =#{roleId} and p.permission_sign ='navigation') t,cux_module
+		m where t.description =m.id and m.parent_id =#{id}
+	</select>
+
+	<insert id="insertModule" parameterType="Module"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		cux_module(id,module_name,module_type,parent_id,module_title,
+		module_icon,module_index,module_target)
+		VALUES(#{id},#{moduleName},#{moduleType},
+		#{parentId},#{moduleTitle},#{moduleIcon},#{moduleIndex},#{moduleTarget})
+	</insert>
+</mapper>

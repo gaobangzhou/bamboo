@@ -1,0 +1,7 @@
+
+#if(!$shiro.hasRole("admin"))
+    #foreach($Row in $Rows)
+        <div class="btn btn-sm btn-info">$Row 这是第 $velocityCount</div><br>
+    
+    #end
+#end

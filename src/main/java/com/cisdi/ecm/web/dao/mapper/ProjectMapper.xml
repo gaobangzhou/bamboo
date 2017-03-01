@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.PojectMapper">
+
+  <resultMap id="ProjectResultMap" type="Project">
+      <result column="project_number" property="projectNum" jdbcType="VARCHAR" />
+      <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+      <result column="project_full_name" property="projectFullName" jdbcType="VARCHAR" />
+      <result column="project_type" property="projectType" jdbcType="VARCHAR" />
+      <result column="project_status_code" property="projectStatusCode" jdbcType="VARCHAR" />
+      <result column="project_status_name" property="projectStatusName" jdbcType="VARCHAR" />
+      <result column="project_manager" property="projectManager" jdbcType="VARCHAR" />
+      <result column="start_date" property="startDate" jdbcType="DATE" />
+      <result column="close_date" property="closeDate" jdbcType="VARCHAR" />
+      <result column="project_full_name" property="projectFullName" jdbcType="VARCHAR" />
+      <result column="project_full_name" property="projectFullName" jdbcType="VARCHAR" />
+      <result column="project_full_name" property="projectFullName" jdbcType="VARCHAR" />
+      <result column="project_full_name" property="projectFullName" jdbcType="VARCHAR" />
+      <result column="project_full_name" property="projectFullName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+	<select id="getProjectByFolderId" parameterType="String" resultMap="ProjectResultMap">
+	SELECT p.*,pr.folder_guid from cux_project p,cux_project_folderguid_rt pr where  p.project_number =pr.project_number
+	and pr.folder_guid =#{folderId}
+	</select>
+	
+	<select id="getProjectByNum" parameterType="String" resultMap ="ProjectResultMap" >
+	SELECT p.*,pr.folder_guid from cux_project p,cux_project_folderguid_rt pr where  p.project_number =pr.project_number
+	and p.project_number =#{projectNum}
+	</select>
+	
+	<select id="getAllProject" resultType="Map">
+	SELECT p.*,pr.folder_guid from cux_project p,cux_project_folderguid_rt pr where  p.project_number =pr.project_number
+	and p.project_type = #{projectType} and p.ou_id =#{ouId}
+	
+	</select>
+</mapper>

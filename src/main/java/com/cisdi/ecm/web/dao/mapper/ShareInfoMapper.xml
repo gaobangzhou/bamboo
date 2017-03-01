@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.ShareInfoMapper">
+
+	<resultMap id="ShareInfoResultMap" type="ShareSetting">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="doc_id" property="docId" jdbcType="BIGINT" />
+		<result column="time_code" property="timeCode" jdbcType="BIGINT" />
+		<result column="share_code" property="shareCode" jdbcType="VARCHAR" />
+		<result column="need_sign" property="needSign" jdbcType="VARCHAR" />
+		<result column="can_download" property="canDownload" jdbcType="VARCHAR" />
+		<result column="can_review" property="canReview" jdbcType="VARCHAR" />
+		<result column="need_password" property="needPassword"
+			jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="expiration_date" property="expirationDate"
+			jdbcType="DATE" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="alias_ids" property="aliasIds" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="DATE" />
+		<result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<select id="selectUserShareSetting" parameterType="String"
+		resultType="Map">
+		select * from cux_user_share_setting t where t.user_Id
+		=#{userName}
+	</select>
+
+
+	<update id="updateShare">
+		update cux_docinfo set set doc_shared =#{status} where id=#{docId}
+	</update>
+	<insert id="insertShareInfo">
+		INSERT INTO cux_file_share_rt (
+		doc_id,
+		time_code,
+		share_code,
+		need_sign,
+		can_download,
+		can_review, STATUS,
+		alias_ids,
+		create_date,
+		created_by
+		) SELECT
+		#{docId} AS doc_id,
+		#{timeCode} AS
+		time_code,
+		#{shareCode} AS share_code,
+		ss.need_sign,
+		ss.can_download,
+		ss.can_review,
+		'active' AS STATUS,
+		ss.alias_id AS alias_ids,
+		SYSDATE() AS
+		create_date,
+		#{userName}
+		FROM
+		cux_user_share_setting ss
+		WHERE
+		ss.user_Id =
+		#{userName}
+	</insert>
+
+	<insert id="insertDefSetting">
+		insert into
+		cux_user_share_setting(user_id,need_sign,can_download,can_review,alias_id,share_direct)
+		VALUES(#{userName},'Y','Y','all_alias','Y')
+	</insert>
+	<select id="selectShareSettingById" parameterType="long"
+		resultMap="ShareInfoResultMap">
+		select * from cux_file_share_rt fs where fs.id=#{id}
+	</select>
+
+	<select id="selectShareMapById" parameterType="long" resultType="Map">
+		select * from cux_file_share_rt fs where fs.doc_id=#{docId}
+	</select>
+
+	<update id="updateShareSetting" parameterType="Map">
+		update cux_file_share_rt fs
+		<set>
+			<if test="needSign !=null and needSign !=''">
+				fs.need_sign =#{needSign},
+			</if>
+			<if test="canDownload !=null and canDownload !=''">
+				fs.can_download =#{canDownload},
+			</if>
+			<if test="canReview !=null and canReview !=''">
+				fs.can_review =#{canReview},
+			</if>
+			<if test="needPassword !=null and needPassword !=''">
+				fs.need_password =#{needPassword},
+			</if>
+			<if test="password !=null and password !=''">
+				fs.password =#{password},
+			</if>
+			<if test="expirationDate !=null and expirationDate !=''">
+				fs.expiration_date =STR_TO_DATE(#{expirationDate},'%Y-%m-%d %T'),
+			</if>
+			<if test="status !=null and status !=''">
+				fs.status =#{status},
+			</if>
+			<if test="aliasIds !=null and aliasIds !=''">
+				fs.alias_ids =#{aliasIds},
+			</if>
+		</set>
+		where fs.doc_id =#{docId}
+
+	</update>
+
+</mapper>

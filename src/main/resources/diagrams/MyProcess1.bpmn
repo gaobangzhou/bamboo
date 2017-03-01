@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="e_tyt" name="鐢靛瓙绛惧悕-閫氱敤鍥?鏃犱細绛? isExecutable="true">
+    <startEvent id="startevent1" name="Start">
+      <extensionElements>
+        <activiti:formProperty id="outcome" name="outcome" type="string" expression="${outcome}" variable="outcome" default="'REJECT'"></activiti:formProperty>
+      </extensionElements>
+    </startEvent>
+    <userTask id="e_tyt_1" name="褰掓。璐ㄩ噺妫€鏌?>
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>e_tyt_1</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="e_tyt_2" name="瀹℃牳">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>e_tyt_2</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway" default="go_end_1"></exclusiveGateway>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="e_tyt_1"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="e_tyt_1" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="e_tyt_2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome == 'APPROVE'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="tyt_hq_4" name="涓讳换宸ョ▼甯?>
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>tyt_hq_3</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway" default="go_end_3"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway" default="go_end_4"></exclusiveGateway>
+    <userTask id="e_tyt_5" name="閮ㄩ棬璐熻矗浜?>
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>e_tyt_5</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="e_tyt_6" name="鎬诲笀绛惧彂">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>e_tyt_6</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="e_tyt_7" name="妗ｆ瀹?>
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>e_tyt_7</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway" default="go_end_6"></exclusiveGateway>
+    <sequenceFlow id="go_end_1" sourceRef="exclusivegateway1" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="go_end_3" sourceRef="exclusivegateway3" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="exclusivegateway4" targetRef="e_tyt_5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome == 'APPROVE'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="go_end_4" sourceRef="exclusivegateway4" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="exclusivegateway6" targetRef="e_tyt_6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome == 'APPROVE'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway7" name="Exclusive Gateway" default="go_end_7"></exclusiveGateway>
+    <sequenceFlow id="flow14" sourceRef="e_tyt_6" targetRef="exclusivegateway7"></sequenceFlow>
+    <sequenceFlow id="flow15" sourceRef="exclusivegateway7" targetRef="e_tyt_7">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome == 'APPROVE'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow16" sourceRef="e_tyt_7" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="go_end_6" sourceRef="exclusivegateway6" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="go_end_7" sourceRef="exclusivegateway7" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow22" sourceRef="e_tyt_2" targetRef="exclusivegateway3"></sequenceFlow>
+    <userTask id="e_tyt_3" name="涓讳换璁捐甯?>
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>e_tyt_3</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow23" sourceRef="exclusivegateway3" targetRef="e_tyt_3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome == 'APPROVE'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow24" sourceRef="e_tyt_3" targetRef="exclusivegateway9"></sequenceFlow>
+    <sequenceFlow id="flow25" sourceRef="exclusivegateway9" targetRef="endevent1"></sequenceFlow>
+    <userTask id="e_tyt_4" name="涓讳换宸ョ▼甯?>
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.cisdi.ctp.bpm.handler.UserTaskCreateHandler">
+          <activiti:field name="stepDefGUID">
+            <activiti:string>e_tyt_4</activiti:string>
+          </activiti:field>
+          <activiti:field name="procInstGUID">
+            <activiti:expression>${procInstGUID}</activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow26" sourceRef="exclusivegateway9" targetRef="e_tyt_4">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome == 'APPROVE'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow27" sourceRef="e_tyt_4" targetRef="exclusivegateway4"></sequenceFlow>
+    <sequenceFlow id="flow28" sourceRef="e_tyt_5" targetRef="exclusivegateway6"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_e_tyt">
+    <bpmndi:BPMNPlane bpmnElement="e_tyt" id="BPMNPlane_e_tyt">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="130.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="420.0" y="117.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
+        <omgdc:Bounds height="40.0" width="40.0" x="687.0" y="117.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway4" id="BPMNShape_exclusivegateway4">
+        <omgdc:Bounds height="40.0" width="40.0" x="420.0" y="257.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="940.0" y="360.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
+        <omgdc:Bounds height="40.0" width="40.0" x="130.0" y="357.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway7" id="BPMNShape_exclusivegateway7">
+        <omgdc:Bounds height="40.0" width="40.0" x="420.0" y="357.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="tyt_hq_4" id="BPMNShape_tyt_hq_4">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_hq_1" id="BPMNShape_e_tyt_hq_1">
+        <omgdc:Bounds height="55.0" width="105.0" x="270.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_hq_2" id="BPMNShape_e_tyt_hq_2">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway9" id="BPMNShape_exclusivegateway9">
+        <omgdc:Bounds height="40.0" width="40.0" x="130.0" y="257.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_hq_5" id="BPMNShape_e_tyt_hq_5">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_hq_7" id="BPMNShape_e_tyt_hq_7">
+        <omgdc:Bounds height="55.0" width="105.0" x="260.0" y="350.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_hq_8" id="BPMNShape_e_tyt_hq_8">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="350.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_hq_3" id="BPMNShape_e_tyt_hq_3">
+        <omgdc:Bounds height="55.0" width="105.0" x="786.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_hq_4" id="BPMNShape_e_tyt_hq_4">
+        <omgdc:Bounds height="55.0" width="105.0" x="270.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_1" id="BPMNShape_e_tyt_1">
+        <omgdc:Bounds height="55.0" width="105.0" x="270.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_2" id="BPMNShape_e_tyt_2">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_5" id="BPMNShape_e_tyt_5">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_6" id="BPMNShape_e_tyt_6">
+        <omgdc:Bounds height="55.0" width="105.0" x="260.0" y="350.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_7" id="BPMNShape_e_tyt_7">
+        <omgdc:Bounds height="55.0" width="105.0" x="510.0" y="350.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_3" id="BPMNShape_e_tyt_3">
+        <omgdc:Bounds height="55.0" width="105.0" x="786.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="e_tyt_4" id="BPMNShape_e_tyt_4">
+        <omgdc:Bounds height="55.0" width="105.0" x="270.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="165.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="270.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="375.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="420.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="460.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="go_end_1" id="BPMNEdge_go_end_1">
+        <omgdi:waypoint x="440.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="439.0" y="31.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="31.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="360.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="go_end_3" id="BPMNEdge_go_end_3">
+        <omgdi:waypoint x="707.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="706.0" y="50.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="50.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="360.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="460.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="277.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="go_end_4" id="BPMNEdge_go_end_4">
+        <omgdi:waypoint x="440.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="440.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="360.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="170.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="260.0" y="377.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="365.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="420.0" y="377.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="460.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="377.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="615.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="940.0" y="377.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="go_end_6" id="BPMNEdge_go_end_6">
+        <omgdi:waypoint x="150.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="485.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="485.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="395.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="go_end_7" id="BPMNEdge_go_end_7">
+        <omgdi:waypoint x="440.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="439.0" y="435.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="435.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="395.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
+        <omgdi:waypoint x="615.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="687.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
+        <omgdi:waypoint x="727.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="786.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
+        <omgdi:waypoint x="838.0" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="840.0" y="193.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="193.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="130.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="67.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="67.0" y="524.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="524.0"></omgdi:waypoint>
+        <omgdi:waypoint x="957.0" y="395.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
+        <omgdi:waypoint x="170.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="270.0" y="277.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="375.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="420.0" y="277.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
+        <omgdi:waypoint x="562.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="561.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="357.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

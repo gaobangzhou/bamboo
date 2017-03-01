@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.RoleMapper">
+	<resultMap id="BaseResultMap" type="Role">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="role_sign" property="roleSign" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 增加角色 -->
+	<insert id="insertRole" parameterType="Role">
+		insert into cux_role (id,
+		role_name, role_sign,
+		description)
+		values (#{id,jdbcType=BIGINT},
+		#{roleName,jdbcType=VARCHAR},
+		#{roleSign,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR})
+	</insert>
+
+	<!-- 更新角色 -->
+	<update id="updateRole" parameterType="Role">
+		<set>
+			<if test="roleName!=null and roleNname!=''">
+				role_name=#{roleName},
+			</if>
+			<if test="roleSign!=null and roleSign!=''">
+				role_sign=#{roleSign},
+			</if>
+			<if test="description!=null and description!=''">
+				description=#{description},
+			</if>
+		</set>
+		where id=#{id};
+	</update>
+
+	<!-- 删除角色 -->
+	<delete id="deleteRoleById" parameterType="long">
+		delete from cux_role
+		where id=#{id,jdbcType=BIGINT}
+	</delete>
+
+
+	<insert id="insertUserRole">
+		insert into cux_user_role ( user_id, role_id)
+		values (
+		#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR})
+	</insert>
+
+	<delete id="deleteUserRoleById" parameterType="long">
+		delete user_role
+		where id=#{id}
+	</delete>
+
+	<delete id="deleteUserRole">
+		delete cux_user_role where user_id =#{userId} and
+		role_id =#{roleId}
+	</delete>
+	<!-- 通过用户id 查询用户 拥有的角色 -->
+	<select id="selectRolesByUserId" resultMap="BaseResultMap"
+		parameterType="long">
+		SELECT r.* FROM cux_role r LEFT JOIN cux_user_role ur ON
+		r.id = ur.role_id
+		WHERE ur.user_id = #{id,jdbcType=BIGINT}
+	</select>
+	<!-- 通过用户名字 查询用户 拥有的角色 -->
+	<select id="selectRolesByUserName" resultMap="BaseResultMap"
+		parameterType="String">
+		select * from cux_role r where r.id in( select
+		ur.role_id from cux_user
+		u,cux_user_role ur where u.username
+		=#{userName} and u.id =ur.user_id)
+
+	</select>
+</mapper>

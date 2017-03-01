@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.FolderMapper">
+
+	<resultMap id="FolderResultMap" type="Folder">
+		<id column="folder_guid" property="folderGuid" jdbcType="VARCHAR" />
+		<result column="parent_guid" property="parentGuid" jdbcType="VARCHAR" />
+		<result column="folder_name" property="folderName" jdbcType="VARCHAR" />
+		<result column="folder_creator" property="folderCreator"
+			jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="DATE" />
+		<result column="last_modifier" property="lastModifier"
+			jdbcType="VARCHAR" />
+		<result column="last_modified_date" property="lastModifiedDate"
+			jdbcType="DATE" />
+		<result column="folder_group" property="folderGroup" jdbcType="VARCHAR" />
+		<result column="folder_user_list" property="folderUserACL"
+			jdbcType="VARCHAR" />
+		<result column="folder_alias_list" property="folderAliasACL"
+			jdbcType="VARCHAR" />
+		<result column="folder_ou" property="folderOU" jdbcType="INTEGER" />
+		<result column="is_template" property="isTemplate" jdbcType="VARCHAR" />
+		<result column="is_security" property="isSecurity" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectUserRootFolder" parameterType="String"
+		resultMap="FolderResultMap">
+		SELECT * from cux_folderfolders ff where ff.folder_creator
+		=#{userName} and
+		ff.parent_guid ='CLD_ROOT'
+	</select>
+
+	<select id="selectUserFolder" resultType="Map">
+		select ff.folder_guid
+		as folderguid,ff.parent_guid as
+		parentguid,ff.folder_name as foldername
+		from cux_folderfolders ff
+		where ff.folder_creator =#{userName} and
+		ff.folder_guid =#{folderGuid}
+	</select>
+
+	<insert id="createUserRootFolder" parameterType="String">
+		INSERT INTO
+		cux_folderfolders (
+		folder_guid,
+		parent_guid,
+		folder_name,
+		folder_creator,
+		create_date,
+		last_modifier,
+		last_modified_date,
+		folder_group
+		)
+		VALUES(UUID(),'CLD_ROOT','我的云盘',#{userName},SYSDATE(),#{userName},SYSDATE(),'person')
+	</insert>
+
+	<insert id="createFolder" parameterType="Folder">
+		INSERT INTO
+		CUX_FOLDERFOLDERS(folder_guid,parent_guid,folder_name,folder_creator,create_date,last_modifier,last_modified_date,folder_group,folder_user_list,folder_alias_list,folder_ou,is_template,is_security)
+		VALUES(UUID(),#{parentGuid},#{folderName},#{folderCreator},NOW(),#{lastModifier},NOW(),#{folderGroup},#{folderUserACL},#{folderAliasACL},#{folderOU},#{isTemplate},#{isSecurity})
+
+	</insert>
+
+	<insert id="createFolderWithGuid" parameterType="Folder">
+		INSERT INTO
+		CUX_FOLDERFOLDERS(folder_guid,parent_guid,folder_name,folder_creator,create_date,last_modifier,last_modified_date,folder_group,folder_user_list,folder_alias_list,folder_ou,is_template,is_security)
+		VALUES(#{folderGuid},#{parentGuid},#{folderName},#{folderCreator},NOW(),#{lastModifier},NOW(),#{folderGroup},#{folderUserACL},#{folderAliasACL},#{folderOU},#{isTemplate},#{isSecurity})
+
+	</insert>
+
+	<insert id="createNewFolder">
+		INSERT INTO
+		cux_folderfolders (
+		folder_guid,parent_guid,folder_name,
+		folder_creator,create_date,last_modifier,last_modified_date,folder_group
+		)
+		VALUES(UUID(),#{parentGuid},#{folderName},#{userName},SYSDATE(),#{userName},SYSDATE(),'person')
+	</insert>
+
+	<delete id="deleteFolder" parameterType="Folder">
+		DELETE FROM
+		cux_folderfolders WHERE FOLDER_GUID =#{folderGuid}
+	</delete>
+
+	<delete id="deleteFolderById" parameterType="String">
+		DELETE FROM
+		cux_folderfolders WHERE FOLDER_GUID =#{guid}
+	</delete>
+
+	<select id="selectFolderById" parameterType="String" resultMap="FolderResultMap">
+
+		select * from cux_folderfolders where folder_guid=#{guid};
+
+	</select>
+
+	<select id="getFoldersByParentId" parameterType="String"
+		resultMap="FolderResultMap">
+		select * from cux_folderfolders where parent_guid=#{guid}
+		<if test="ouid !=null or ouid !=''">
+			and folder_ou =#{ouid}
+		</if>
+	</select>
+
+	<select id="getSubFoldersByFolder" parameterType="Folder"
+		resultMap="FolderResultMap">
+		select * from cux_folderfolders where
+		parent_guid=#{parentGuid};
+	</select>
+	<select id="getSubFolderMaps" resultType="map">
+	select folder_guid,"folder" as type from cux_folderfolders where
+		parent_guid=#{guid} and in_trashcan ='N';
+	</select>
+	
+	<select id="getSubFoldersByFolderId" parameterType="String"
+		resultMap="FolderResultMap">
+		select * from cux_folderfolders where parent_guid=#{guid}
+		<if test="ouid !=null or ouid !=''">
+			and folder_ou =#{ouid}
+		</if>
+	</select>
+	<insert id="moveFolders">
+
+	</insert>
+	<select id="queryFoldersByCondition" parameterType="FolderCondition"
+		resultMap="FolderResultMap">
+
+	</select>
+
+	<select id="selectFolderByParentGuidAndName" resultMap="FolderResultMap">
+		select *
+		from cux_folderfolders where parent_guid=#{parentGuid} and
+		folder_creator =#{userName} and folder_name =#{folderName}
+	</select>
+	<select id="selectFolderRegExp" resultType="Map">
+		select
+		max(create_date),folder_name from cux_folderfolders where
+		parent_guid=#{parentGuid} and folder_creator =#{userName} and
+		folder_name REGEXP #{folderName}
+	</select>
+
+	<select id="queryFoldersCountByCondition" parameterType="FolderCondition"
+		resultType="int">
+
+	</select>
+	<insert id="spreadACL2AllDocs">
+
+	</insert>
+	<insert id="spreadACL2AllFolders">
+
+	</insert>
+	<update id="updateFolder" parameterType="Folder">
+		update cux_folderfolders
+		<set>
+			<if test="folderName !=null and folderName !=''">
+				folder_name= #{folderName},
+			</if>
+			<if test="folderUserACL !=null and folderUserACL !=''">
+				folder_user_list = #{folderUserACL},
+			</if>
+			<if test="folderAliasACL !=null and folderAliasACL !=''">
+				folder_alias_list = #{folderAliasACL},
+			</if>
+		</set>
+
+		where folder_guid =#{folderGuid};
+
+	</update>
+
+	<update id="updateFolderInTrashcan">
+		UPDATE cux_folderfolders ff SET ff.in_trashcan
+		=#{inTrashcan},ff.last_modifier=#{userName},ff.last_modified_date=SYSDATE()
+		where
+		ff.folder_creator =#{userName} and ff.folder_guid =#{folderGuid}
+	</update>
+
+	<select id="getUserTreeRoot" parameterType="String"
+		resultType="map">
+		SELECT
+		ff.folder_guid AS id,
+		ff.folder_name AS "name",
+		ff.parent_guid AS parentId,
+		'true' AS pid,
+		'true' AS "open",
+		'folder' AS type
+		FROM
+		cux_folderfolders ff
+		WHERE
+		ff.parent_guid = 'CLD_ROOT'
+
+		AND
+		ff.folder_creator = #{userName}
+	</select>
+	<select id="getTreeSubFoldersByParentId"
+		resultType="map">
+			SELECT
+		ff.folder_guid AS id,
+		ff.folder_name AS "name",
+		ff.parent_guid AS pId,
+		'true' AS isParent,
+		'false' AS "open",
+		'folder' AS type from cux_folderfolders ff where ff.parent_guid=#{parentId}
+		and ff.folder_creator = #{userName} and ff.in_trashcan ='N'
+	</select>
+	
+	<update id="moveFiles2Folder">
+	update cux_folderdoc_rt set folder_guid = #{folderGuid} where doc_id IN
+	<foreach collection="list" item="FileChecked" open="(" close=")" separator="," index="">
+		  ${FileChecked.id}
+	</foreach>	
+	</update>
+	
+	<update id="deleteFolders2Transhcan">
+	UPDATE cux_folderfolders ff SET ff.in_trashcan
+		='Y',ff.last_modified_date=SYSDATE()
+		where
+		 ff.folder_guid in
+		 <foreach collection="list" item="map" open="(" close=")" separator="," index="">
+		  #{map.folder_guid}
+	</foreach>
+	</update>
+</mapper>

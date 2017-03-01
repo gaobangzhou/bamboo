@@ -1,0 +1,255 @@
+<div class="col-sm-12">
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a data-toggle="tab" href="#home">
+                    <i class="green ace-icon fa fa-home bigger-120"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#messages">
+                    Messages
+                    <span class="badge badge-danger">4</span>
+                </a>
+            </li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    Dropdown &nbsp;
+                    <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-info">
+                    <li>
+                        <a data-toggle="tab" href="#dropdown1">@fat</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#dropdown2">@mdo</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <div class="clearfix">
+ <div class="itemdiv mymemberdiv">
+      <div class="user">
+        <img alt="Joe Doe's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar2.png">
+      </div>
+        <div class="body">
+            <div class="name">
+                <a href="#"<span style="font-size:20px"> Joe Doe</span></a><span class="badge badge-success" style="font-size:12px;color:white;margin-left:10px">
+                粉丝数：123</span>
+                </span>
+			<span style="margin-right:10px;float:right;margin-top:5px;font-size:15px;color:red;font-weight: bold">
+           创建时间：2015-08
+            </span>
+        </div>
+		  <div class="email">
+				<span style="font-size:13px; color:gray">邮箱：3213@qq.com
+				</span> 
+				<span style="margin-right:10px;float:right;margin-top:0px;font-size:15px;color:red;font-weight: bold">
+				文件总数：123
+              </span>
+         </div>					
+         </div>
+<div class="body">
+          <div class="time">
+                 <button type="button" class="btn-white btn btn-primary btn-xs"><i class="ace-icon fa fa-plus"></i>添加关注</button>
+            </div>	
+	  <div >
+				<span style="font-size:13px;color:gray">工作地点：赛迪大厦 </span>
+               
+         </div>  
+		 
+          </div>
+</div>
+					
+                    <div class="itemdiv mymemberdiv">
+                        <div class="user">
+                            <img alt="Joe Doe's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar2.png">
+</div>
+<div class="body">
+    <div class="name">
+        <a href="#">Joe Doe</a>
+    </div>
+    <div class="time">
+        <i class="ace-icon fa fa-clock-o"></i>
+        <span class="green">1 hour</span>
+    </div>
+    <div>
+        <span class="label label-warning label-sm">pending</span>
+        <div class="inline position-relative">
+            <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                <li>
+                    <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Approve">
+                        <span class="green">
+                            <i class="ace-icon fa fa-check bigger-110"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Reject">
+                        <span class="orange">
+                            <i class="ace-icon fa fa-times bigger-110"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+                        <span class="red">
+                            <i class="ace-icon fa fa-trash-o bigger-110"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+                        </div>
+                        <div class="itemdiv mymemberdiv">
+                            <div class="user">
+                                <img alt="Jim Doe's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar.png">
+    </div>
+    <div class="body">
+        <div class="name">
+            <a href="#">Jim Doe</a>
+        </div>
+        <div class="time">
+            <i class="ace-icon fa fa-clock-o"></i>
+            <span class="green">2 hour</span>
+        </div>
+        <div>
+            <span class="label label-warning label-sm">pending</span>
+            <div class="inline position-relative">
+                <button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                    <i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                    <li>
+                        <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Approve">
+                            <span class="green">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltip-warning" data-rel="tooltip" title="" data-original-title="Reject">
+                            <span class="orange">
+                                <i class="ace-icon fa fa-times bigger-110"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+                            <span class="red">
+                                <i class="ace-icon fa fa-trash-o bigger-110"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+                            </div>
+                            <div class="itemdiv mymemberdiv">
+                                <div class="user">
+                                    <img alt="Alex Doe's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar5.png">
+        </div>
+        <div class="body">
+            <div class="name">
+                <a href="#">Alex Doe</a>
+            </div>
+            <div class="time">
+                <i class="ace-icon fa fa-clock-o"></i>
+                <span class="green">3 hour</span>
+            </div>
+            <div>
+                <span class="label label-danger label-sm">blocked</span>
+            </div>
+        </div>
+                                </div>
+                                <div class="itemdiv mymemberdiv">
+                                    <div class="user">
+                                        <img alt="Bob Doe's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar2.png">
+            </div>
+            <div class="body">
+                <div class="name">
+                    <a href="#">Bob Doe</a>
+                </div>
+                <div class="time">
+                    <i class="ace-icon fa fa-clock-o"></i>
+                    <span class="green">6 hour</span>
+                </div>
+                <div>
+                    <span class="label label-success label-sm arrowed-in">approved</span>
+                </div>
+            </div>
+                                    </div>
+                                    <div class="itemdiv mymemberdiv">
+                                        <div class="user">
+                                            <img alt="Susan's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar3.png">
+                </div>
+                <div class="body">
+                    <div class="name">
+                        <a href="#">Susan</a>
+                    </div>
+                    <div class="time">
+                        <i class="ace-icon fa fa-clock-o"></i>
+                        <span class="green">yesterday</span>
+                    </div>
+                    <div>
+                        <span class="label label-success label-sm arrowed-in">approved</span>
+                    </div>
+                </div>
+                                        </div>
+                                        <div class="itemdiv mymemberdiv">
+                                            <div class="user">
+                                                <img alt="Phil Doe's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar4.png">
+                    </div>
+                    <div class="body">
+                        <div class="name">
+                            <a href="#">Phil Doe</a>
+                        </div>
+                        <div class="time">
+                            <i class="ace-icon fa fa-clock-o"></i>
+                            <span class="green">2 days ago</span>
+                        </div>
+                        <div>
+                            <span class="label label-info label-sm arrowed-in arrowed-in-right">online</span>
+                        </div>
+                    </div>
+                                            </div>
+                                            <div class="itemdiv mymemberdiv">
+                                                <div class="user">
+                                                    <img alt="Alexa Doe's avatar" src="${request.getContextPath()}/resources/assets/avatars/avatar1.png">
+                        </div>
+                        <div class="body">
+                            <div class="name">
+                                <a href="#">Alexa Doe</a>
+                            </div>
+                            <div class="time">
+                                <i class="ace-icon fa fa-clock-o"></i>
+                                <span class="green">3 days ago</span>
+                            </div>
+                            <div>
+                                <span class="label label-success label-sm arrowed-in">approved</span>
+                            </div>
+                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="messages" class="tab-pane fade">
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+</div>
+<div id="dropdown1" class="tab-pane fade">
+    <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
+                                        </div>
+                                        <div id="dropdown2" class="tab-pane fade">
+                                            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>

@@ -1,0 +1,75 @@
+<ul class="nav nav-list">
+	#foreach($Menu in $navigation)	
+	   #if($!{Menu.getModuleName()} == $!{targetModule})
+			#if(${Menu.getChildrenModules().size()}>0)
+				<li class="active open">
+			        <a href="#" class="dropdown-toggle">
+						<i class="$!{Menu.getModuleIcon()}"></i>
+						<span class="menu-text"> $!{Menu.getModuleTitle()} </span>
+					   <b class="arrow fa fa-angle-down"></b>
+					</a>
+					<b class="arrow"></b>
+					<ul class="submenu">
+					 #foreach($SubMenu in $!{Menu.getChildrenModules()})
+						#if($!{SubMenu.getModuleName()} == $!{targetFunction})
+						 <li class="active">
+						#else
+						 <li class="">
+						#end									 
+							<a href="$!{SubMenu.getModuleTarget()}">
+								<i class="$!{SubMenu.getModuleIcon()}"></i>
+								$!{SubMenu.getModuleTitle()}
+							</a>
+							<b class="arrow"></b>
+					      </li>
+						#end
+					</ul>
+                   </li>
+			#else
+	         <li class="active">			
+				<a href="$!{Menu.getModuleTarget()}">
+				<i class="$!{Menu.getModuleIcon()}"></i>
+				<span class="menu-text">$!{Menu.getModuleTitle()} </span>
+			</a>
+	
+			<b class="arrow"></b>
+		  </li>
+        
+		#end
+	
+   #else
+	   #if($!{Menu.getChildrenModules().size()} >0)
+	       <li class="">
+		        <a href="#" class="dropdown-toggle">
+					<i class="$!{Menu.getModuleIcon()}"></i>
+					<span class="menu-text"> $!{Menu.getModuleTitle()} </span>
+				   <b class="arrow fa fa-angle-down"></b>
+				</a>
+				<b class="arrow"></b>
+				<ul class="submenu">
+				#foreach($SubMenu in ${Menu.getChildrenModules()})							 
+				   <li class="">
+					<a href="$!{SubMenu.getModuleTarget()}">
+						<i class="$!{SubMenu.getModuleIcon()}"></i>
+						$!{SubMenu.getModuleTitle()}
+					</a>
+					<b class="arrow"></b>
+			      </li>
+				#end
+				</ul>
+	   </li>
+	   #else
+	      <li class="">
+	          
+					<a href="$!{Menu.getModuleTarget()}">
+					<i class="$!{Menu.getModuleIcon()}"></i>
+					<span class="menu-text">$!{Menu.getModuleTitle()} </span>
+				</a>
+					
+				<b class="arrow"></b>
+			  </li>
+		   #end
+	  #end
+	#end	
+		                 
+</ul>

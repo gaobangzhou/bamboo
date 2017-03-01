@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cisdi.ecm.web.dao.BaseDataMapper">
+
+	<resultMap id="CompanyResultMap" type="Company">
+		<id column="ou_id" property="ouId" jdbcType="INTEGER" />
+		<result column="ou_name" property="ouName" jdbcType="VARCHAR" />
+		<result column="ou_full_name" property="ouFullName" jdbcType="VARCHAR" />
+		<result column="start_date" property="startDate" jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	 <resultMap id="DocTypeResultMap" type="DocType">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parent_doctype" property="parentTypeCode" jdbcType="INTEGER" />
+		<result column="doctype_code" property="docTypeCode" jdbcType="VARCHAR" />
+		<result column="doctype_name" property="docTypeName" jdbcType="VARCHAR" />
+		<result column="is_main_type" property="isMainType" jdbcType="VARCHAR" />
+		<result column="description" property="docTypeDescription" jdbcType="VARCHAR" />
+	</resultMap>
+ 
+ <resultMap id="DepartmentResultMap" type="Department">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parent_dept_id" property="parentDeptId" jdbcType="INTEGER" />
+		<result column="dept_id" property="deptId" jdbcType="INTEGER" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="dept_code" property="deptCode" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<resultMap id="EmployeeResultMap" type="Employee">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="emp_num" property="empNum" jdbcType="VARCHAR" />
+		<result column="emp_name" property="empName" jdbcType="VARCHAR" />
+		<result column="email_address" property="emailAddress" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="en_emp_name" property="empEnName" jdbcType="VARCHAR" />
+		<result column="dept_id" property="deptId" jdbcType="INTEGER" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="emp_specialty_code" property="empSpecialtyCode" jdbcType="VARCHAR" />
+		<result column="emp_specialty_name" property="empSpecialtyName" jdbcType="VARCHAR" />
+		<result column="office_tel" property="officeTel" jdbcType="VARCHAR" />
+		<result column="cell_tel" property="cellTel" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<select id="getAllCompany" resultMap="CompanyResultMap">
+	   select * from cux_company ;
+	</select>
+
+	<select id="getCompanyByOu" parameterType="INTEGER" resultMap="CompanyResultMap">
+	    select * from cux_company where  ou_id =#{ouId}
+	</select>
+	
+	<select id="getProjectTypeByOu" parameterType="INTEGER"  resultType="Map">
+	 select * from cux_project_type where ou_id =#{ouId};
+	 </select> 
+	
+	<select id="getAllDocType" resultMap="DocTypeResultMap">
+	 select * from cux_doc_type;
+	 </select>
+	<select id="getDocTypeByCode" parameterType="String" resultMap="DocTypeResultMap">
+	 select * from cux_doc_type where doctype_code =#{code}
+	</select> 
+
+	<select id="getDepartmentByCode" parameterType="String"
+		resultMap="DepartmentResultMap">
+		select * from cux_department where dept_code =#{deptCode}
+
+	</select>
+
+	<select id="getDeptsByParemtId" parameterType="INTEGER" resultMap="DepartmentResultMap">
+	  select * from cux_department where parent_dept_id =#{parentId}
+	</select>
+
+	<select id="getEmloyeeByCode" parameterType="String" resultMap="EmployeeResultMap">
+	   select * from cux_employee where emp_code =#{code};
+	</select>
+
+</mapper>

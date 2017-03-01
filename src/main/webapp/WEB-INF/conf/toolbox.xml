@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+	<data type="number">
+		<key>version</key>
+		<value>1.1</value>
+	</data>
+	<tool>
+		<key>shiro</key>
+		<scope>application</scope>
+		<class>com.cisdi.ecm.web.common.velocity.Permission</class>
+	</tool>
+	<tool>
+		<key>date</key>
+		<scope>application</scope>
+		<class>org.apache.velocity.tools.generic.DateTool</class>
+	</tool>
+
+	<tool>
+		<key>escape</key>
+		<scope>application</scope>
+		<class>org.apache.velocity.tools.generic.EscapeTool</class>
+	</tool>
+
+	<tool>
+		<key>math</key>
+		<scope>application</scope>
+		<class>org.apache.velocity.tools.generic.MathTool</class>
+	</tool>
+
+	<tool>
+		<key>link</key>
+		<scope>request</scope>
+		<class>org.apache.velocity.tools.generic.LinkTool</class>
+	</tool>
+
+	<tool>
+		<key>context</key>
+		<scope>request</scope>
+		<class>org.apache.velocity.tools.generic.ContextTool</class>
+	</tool>
+	
+</toolbox>

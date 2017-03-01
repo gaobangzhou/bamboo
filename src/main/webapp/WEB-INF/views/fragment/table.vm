@@ -1,0 +1,29 @@
+
+  <table class="table table-striped table-bordered table-hover responsive table-data">
+        <thead>
+            <tr>
+                <th class=" center">序号</th>
+                <th class=" center">名称</th>
+                <th class=" center">代码</th>
+                <th class=" center">描述</th>
+            </tr>
+        </thead>
+        <tbody>
+			#foreach($Row in $!{pageData.getList()})
+            <tr class="tabletr" role="row" style="height: auto">
+                <td>$!Row.getId()
+                </td>
+                <td>$!Row.getPermissionName()
+                </td>
+                <td>
+					$Row.getPermissionSign()
+                </td>
+                <td>
+					$Row.getDescription()
+                </td>
+            </tr>
+			#end
+        </tbody>
+    </table>
+     #parse("fragment/pagination.vm")
+

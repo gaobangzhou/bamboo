@@ -1,0 +1,131 @@
+<div class="main-content">
+	<div class="container-fluid" style="padding-left:0px;padding-right:0px;">
+		<!-- #section:basics/sidebar -->
+
+		<div id="treesidebar" class="treesidebar responsive">
+			<script type="text/javascript">
+				try {
+					ace.settings.check('treesidebar', 'fixed')
+				} catch (e) {
+				}
+			</script>
+			<div class="widget-box widget-color-blue2" style="margin:0px;">
+				<div class="widget-header">
+					<h4 class="widget-title lighter smaller">文档库</h4>
+				</div>
+			</div>
+			<div class_cancle="padding-8" style="overflow-x:hidden;">
+				<ul id="treeDemo" class="ztree"></ul>
+			</div>
+		</div>
+		<div class="treemain-content" style="padding:0px;">
+			<div class="ecm-container" style="padding-left:0px;padding-right:0px;">
+
+
+				<div class="pathcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try {
+							ace.settings.check('breadcrumbs', 'fixed')
+						} catch (e) {
+						}
+					</script>
+
+					<ul id="treePath" class="breadcrumb">
+						<li><i class="ace-icon fa fa-map-marker bigger-130 blue"></i>
+							<a href="#">文档库</a></li>
+						<li class="active">项目搜索</li>
+					</ul>
+					<!-- /.breadcrumb -->
+				</div>
+				<br>
+				<div class="">
+					<form class="form-horizontal col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="form-field-select-3">
+								项目名称:</label>
+							<div class="col-sm-4 no-padding-left">
+								<input class="form-control" type="text" id="projectName"
+									name="projectName" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="form-field-select-3">
+								项目号:</label>
+							<div class="col-sm-4 no-padding-left">
+								<input class="form-control" type="text" id="projectNumber"
+									name="projectNumber" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="form-field-select-3">
+								开始时间:</label>
+							<div class="  col-sm-4 no-padding">
+								<div class="input-group input-group-sm">
+									<input type="text" id="startTime" name="startTime"
+										class="form-control datepicker" /> <span
+										class="input-group-addon"> <i
+										class="ace-icon fa fa-calendar"></i>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="form-field-select-3">
+								项目经理:</label>
+							<div class="col-sm-4 no-padding-left">
+								<input class="form-control" type="text" id="projectManager"
+									name="projectManager" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 "> </label>
+							<div class="btn-group ">
+								<button id="projectSearch" class="btn btn-success btn-sm" type="button">
+									<span class="ace-icon fa fa-search bigger-120 icon-on-right"></span>
+									搜索 <span class="ace-icon fa  icon-on-right"></span>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- /.main-content -->
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery
+			|| document
+					.write("<script src='${request.getContextPath()}/resources/assets/js/jquery.min.js'>"
+							+ "<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='${request.getContextPath()}/resources/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if ('ontouchstart' in document.documentElement)
+		document
+				.write("<script src='${request.getContextPath()}/resources/assets/js/jquery.mobile.custom.min.js'>"
+						+ "<"+"/script>");
+</script>
+
+
+<script type="text/javascript"
+	src="${request.getContextPath()}/resources/assets/js/ztree/jquery.ztree.core-3.5.min.js"></script>
+
+<script type="text/javascript">
+	var zNodes = $!{treeData};
+</script>
+<script
+	src="${request.getContextPath()}/resources/app/js/library/tree-data.js"></script>
+<script
+	src="${request.getContextPath()}/resources/assets/js/jquery-ui.min.js"></script>
+<script
+	src="${request.getContextPath()}/resources/assets/js/date-time/bootstrap-datetimepicker.zh-CN.js"></script>

@@ -1,0 +1,385 @@
+#set($listRow = ${AllFilePageBean.getListData()})
+#set($rootFolder= ${AllFilePageBean.getRootFolder()})
+#set($Handlebars="#")
+	<div class="pathcrumbs" id="breadcrumbs">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('breadcrumbs', 'fixed')
+			} catch (e) {
+			}
+		</script>
+		<ul class="breadcrumb">
+			<li><i class="ace-icon fa fa-map-marker bigger- bigger-130 blue"></i></li>
+			<li id="rootFolderGuid" name="${rootFolder.getFolderGuid()}" class="active"><a href="#" onclick="goSubFolder('${rootFolder.getFolderGuid()}')">${rootFolder.getFolderName()}</a></li>
+		</ul>
+	</div>
+	<div class="message-container">
+		<!-- #section:pages/inbox.navbar -->
+		<div id="id-message-list-navbar" class="message-navbar clearfix">
+			<div class="message-bar">
+				<div class="message-toolbar hide">
+					<div class="messagebar-item-left">
+						<span class="badge badge-primary" style="margin-left:50px;">0</span>
+						项
+                    </div>
+					
+					<div class="inline position-relative align-left">
+						<button type="button" id="downloadAll"
+							class="btn-white btn-primary btn btn-xs ">
+							<i class="ace-icon fa fa-download bigger-110 green"></i>
+							<span class="bigger-110">下载</span> 
+							<i	class="ace-icon fa  icon-on-right"></i>	
+						</button>
+					</div>
+					<div class="inline position-relative align-left">
+						<button type="button" id="moveAll"
+							class="btn-white btn-primary btn btn-xs ">
+							<i class="ace-icon fa fa-folder-o bigger-110 blue"></i> <span
+								class="bigger-110">移动</span> 
+						</button>
+
+					</div>
+					<button id="deleteAll" type="button" class="btn btn-xs btn-white btn-primary">
+						<i class="ace-icon fa fa-trash-o bigger-125 orange"></i> <span
+							class="bigger-110">删除</span>
+						<i
+								class="ace-icon fa  icon-on-right"></i>	
+					</button>
+				</div>
+			</div>
+			<div>
+				<div class="messagebar-item-left">
+					<label class="inline middle"> <input type="checkbox"
+						id="id-toggle-all" class="ace"> <span class="lbl"></span>
+					</label> &nbsp;
+					<div class="inline position-relative">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"> <i
+							class="ace-icon fa fa-caret-down bigger-125 middle"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-lighter dropdown-100">
+							<li><a id="id-select-message-all" href="#">全部</a></li>
+							<li class="divider"></li>
+							<li><a id="id-select-message-all" href="#">已分享</a></li>
+							<li><a id="id-select-message-all" href="#">未分享</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="nav-search minimized">
+					<form class="form-search">
+						<span class="input-icon"> <input type="text" id="fileSearch"
+							autocomplete="off" class="input-small nav-search-input"
+							placeholder="搜索文件..." > <i
+							class="ace-icon fa fa-search nav-search-icon"></i>
+						</span>
+						<input id="searchType" name="type" class="hidden" type="text" value="file">
+					</form>
+				</div>
+				<div class="messagebar-item-right">
+					<div class="inline position-relative">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle"> <i class="ace-icon fa fa-sort red" aria-hidden="true"></i>&nbsp;排序
+							&nbsp; <i class="ace-icon fa fa-caret-down bigger-125"></i>
+						</a>
+						<ul
+							class="dropdown-menu dropdown-lighter dropdown-menu-right dropdown-100">
+							<li><a href="#"> <i class="ace-icon fa fa-check gray"></i>
+									时间
+							</a></li>
+							<li class="divider"></li>
+							<li><a href="#"> <i class="ace-icon fa fa-check gray"></i>
+									文件大小
+							</a></li>
+							<li class="divider"></li>
+							<li><a href="#"> <i class="ace-icon fa fa-check gray"></i>
+									文件名称
+							</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- #section:pages/inbox.navbar-search -->
+				<div class="fileupload">
+					#if(${AllFilePageBean.getCanUploadFiles()})
+					<button id="fileModal" class="btn btn-sm btn-info">
+						<i class="ace-icon fa fa-upload"></i> 文件上传
+					</button>
+					#end
+					<button id ="createFolder" class="btn btn-sm btn-success">
+						<i class="ace-icon fa fa-folder"></i> 新建文件夹
+					</button>
+					<!--		<button id ="refreshInbox" class="btn btn-sm btn-success">
+						<i class="ace-icon fa fa-refresh"></i> 刷新
+					</button>-->
+				</div>
+				<!-- /section:pages/inbox.navbar-search -->
+			</div>
+		</div>
+	
+
+		<!-- /section:pages/inbox.navbar -->
+		<div class="message-list-container">
+			<!-- #section:pages/inbox.message-list -->
+			<div class="message-list " id="message-list" style="margin-top:2px;">
+				<!-- #section:pages/inbox.message-list.item -->
+				#foreach($Row in $listRow)
+				<div class="message-item  profile-activity">
+					<label class="inline"> <input type="checkbox" id="$Row.id" name="$Row.type" class="ace">
+						<span class="lbl"></span>
+					</label> <i class="message-star ace-icon fa #if(${Row.type} =='folder') fa-folder orange2 #else ${Row.icon} #end bigger-150 "></i> <span
+						class="sender" title="${Row.name}">
+						#if(${Row.type}=="file" )
+						${Row.name}
+						#else
+                       <a href='#' onclick='goSubFolder(&apos;${Row.id}&apos;)'> ${Row.name}</a>
+						#end 
+					</span> <span class="time">${Row.time}</span> <span
+						class="summary"> <span class="text"> ${Row.size} </span>
+					</span> <span class="oper-btn">
+						<div class="tools action-buttons">
+							<a  href="../fileinfo/download/${Row.id}"  class="green" style="margin-left: 16px" title="下载">
+								<i class="ace-icon fa fa-download bigger-125"></i>
+							</a> <a href="#" onclick='deleteSingle(&apos;${Row.type}&apos;,&apos;${Row.id}&apos;)' class="red" style="margin-left: 16px" title="删除">
+								<i class="ace-icon fa fa-times bigger-125"></i>
+							</a>
+							#if(${Row.type}=="file" )
+								#if(${Row.share}=='Y')
+									<a href="#" onclick='showLink(&apos;${Row.id}&apos;)'  class="pink" style="margin-left: 16px" title="链接">
+								    <i class="ace-icon fa fa-link bigger-125"></i>
+							     </a>
+									#else
+									<a href="#" onclick='shareFile(&apos;${Row.id}&apos;)' class="blue" style="margin-left: 16px" title="分享">
+								<i class="ace-icon fa fa-rss bigger-125"></i>
+							      </a>	
+								#end
+							#end
+						</div>
+					</span>
+				</div>
+				#end
+				<!-- /section:pages/inbox.message-list.item -->
+			</div>
+			<!-- /section:pages/inbox.message-list -->
+		</div>
+	</div>	
+<div id="modal-folder" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header no-padding">
+				<div class="table-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+						<span class="white">&times;</span>
+					</button>
+					新建文件夹
+				</div>
+			</div>
+
+			<div class="modal-body no-padding">
+				<br>
+				<form class="form-horizontal" id="folderForm">
+					<div class="form-group">
+						<label class="col-xs-3 col-sm-3 control-label no-padding-right"
+							for="fFolderName">文件夹名称：</label>
+
+						<div class=" col-xs-8 col-sm-7 no-padding">
+							<input name="fFolderName" id="fFolderName" type="text"
+								class="col-xs-12 col-sm-12" />
+						</div>
+					</div>
+					<div class="form-group center">
+						<button type="button" id="submitFolder"
+							class="btn btn-success btn-next btn-sm">
+							<i class="ace-icon fa fa-check bigger-110"></i> 提交
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer no-margin-top"></div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</div>
+<div id="modal-share" class="modal fade" tabindex="-2">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header no-padding">
+				<div class="table-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+						<span class="white">&times;</span>
+					</button>
+					文件分享信息
+				</div>
+			</div>
+			<div class="modal-body no-padding">
+				<div class="row">
+					<form id="shareForm" class="form-horizontal">
+						
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer no-margin-top">
+				<div class=" center">
+					<button type="button" id="submitShare"
+						class="btn btn-success btn-next btn-sm">
+						<i class="ace-icon fa fa-check bigger-110"></i> 保存
+					</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</div>
+<div id="modal-tree" class="modal fade" tabindex="-2">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header no-padding">
+				<div class="table-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+						<span class="white">&times;</span>
+					</button>
+					选择目标文件夹
+				</div>
+			</div>
+			<div class="modal-body no-padding">
+				<div class="folder-tree row">
+					<div class="col-xs-5 col-xs-offset-1">
+						<ul id="treeFolders" class="ztree"></ul>
+					</div>
+				</div>
+				<div class="row">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<input name="fFolderGuid" id="fFolderGuid" type="text" value=""	class="hidden" />
+								<label class="col-xs-3 col-sm-3 control-label no-padding-right" for="folderPath">文件夹路径：</label>
+							<div class=" col-xs-8 col-sm-7 no-padding-left">
+								<p id="folderPath" class="help-block"></p>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer no-margin-top">
+				<div class="form-group center">
+					<button type="button" id="subMove"
+						class="btn btn-success btn-next btn-sm">
+						<i class="ace-icon fa fa-check bigger-110"></i> 移动
+					</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</div>
+<script id="shareTpl" type="text/x-template">
+    <div class="form-group">
+    <input name="docId" id="docId" type="text"
+    	class="hidden" value="{{doc_id}}" /> 
+    <label class="col-sm-3 control-label" for="docNum">分享链接</label>
+    <div class="col-sm-7 no-padding-left">
+    	<input type="text" placeholder="" id="docNum" name="docNum"
+    		value="{{linkAddress}}" class="col-xs-12 col-sm-12" readonly />
+    </div>
+    </div>
+    <div class="form-group">
+    
+    <label class="col-sm-3 control-label" for="docNum">是否需要登录</label>
+    <div class="col-sm-6 no-padding-left">
+    <label class="swicht-lable" >
+    	<input name="needSign" class="ace ace-switch ace-switch-3" type="checkbox" {{transformat need_sign}}>
+    	<span class="lbl"></span>
+    </label>
+    </div>
+    </div>
+    <div class="form-group">
+    <label class="col-sm-3 control-label" for="docNum">分享权限</label>
+    <div class="control-group col-sm-6">
+    	<div class="hradio">
+    		<label>
+    			<input id="canDownload" name="canDownload" type="checkbox" class="ace" {{transformat can_download}}>
+    			<span class="lbl"> 下载</span>
+    		</label>
+    	</div>
+    
+    	<div class="hradio">
+    		<label>
+    			<input id="canReview" name="canReview" type="checkbox" class="ace" {{transformat can_review}}/>
+    			<span class="lbl"> 浏览</span>
+    		</label>
+    	</div>
+    
+    	<div class="hradio">
+    		<label>
+    			<input id ="canSave" name="canSave" type="checkbox" class="ace" {{transformat can_save}}>
+    			<span class="lbl"> 保存</span>
+    		</label>
+    	</div>
+    
+    </div>
+    </div>
+    <div class="form-group">
+    <label class="col-sm-3 control-label" for="docNum">是否需要密码</label>
+    <div class="col-sm-6 no-padding-left">
+    	<label class="swicht-lable">
+    	<input id="needPassword" name="needPassword" class="ace ace-switch ace-switch-3" type="checkbox" {{transformat need_password}}>
+    	<span class="lbl"></span>
+    </label>
+    </div>
+    </div>
+    <div class="form-group">
+    <label class="col-sm-3 control-label" for="docNum">密码</label>
+    <div class="col-sm-3 no-padding-left">
+    	<input id="password" type="text" placeholder="" id="docNum" name="docNum"
+    		value="{{password}}" class="col-xs-12 col-sm-12" {{${Handlebars}if need_password  }}   {{else}} readonly {{/if}}
+			/>
+    </div>
+    </div>
+    	<div class="form-group">
+    <label class="col-sm-3 control-label" for="docNum">有效截止期</label>
+    <div class="col-sm-6 no-padding-left">
+    			<div class="input-group">
+    		 <input id="expirationDate" name="expirationDate" class="form-control datepicker"
+    			value="{{expiration_date}}" type="text" id="creationDate" readonly/><span class="input-group-addon"> <i
+    			class="fa fa-times bigger-110" onclick="removeDatetime()"></i>
+    		</span><span class="input-group-addon"> <i
+    			class="fa fa-calendar bigger-110"></i>
+    		</span>
+    	</div>
+    </div>
+    </div>
+</script>
+
+
+
+
+    <link
+        href="${request.getContextPath()}/resources/plugins/XYTipsWindow/jquery.XYTipsWindow.2.8.css"
+        rel="stylesheet" />
+        <link
+            href="${request.getContextPath()}/resources/plugins/webuploader/webuploader.css"
+            rel="stylesheet" />
+            <link
+                href="${request.getContextPath()}/resources/plugins/webfilesuploader/webfilesuploader.css"
+                rel="stylesheet" />
+
+       <script
+             src="${request.getContextPath()}/resources/plugins/js/jquery.1.8.3.js"></script>
+			 <link rel="stylesheet"
+	href="${request.getContextPath()}/resources/zTreeStyle/metro.css" />
+<script type="text/javascript"
+	src="${request.getContextPath()}/resources/js/ztree/jquery.ztree.core-3.5.min.js"></script>
+       <script
+             src="${request.getContextPath()}/resources/plugins/webuploader/webuploader.js"></script>
+       <script
+             src="${request.getContextPath()}/resources/plugins/XYTipsWindow/jquery.XYTipsWindow.2.8.js"></script>
+        <script
+            src="${request.getContextPath()}/resources/plugins/webfilesuploader/webfilesuploader.js"></script>
+  
+		<script src="${request.getContextPath()}/resources/assets/js/bootbox.min.js"></script>
+		<script src="${request.getContextPath()}/resources/assets/js/jquery.gritter.min.js"></script>
+		<script src="${request.getContextPath()}/resources/assets/js/spin.min.js"></script>
+  <script
+        src="${request.getContextPath()}/resources/js/fileUpload/fileUpload.js"></script>
